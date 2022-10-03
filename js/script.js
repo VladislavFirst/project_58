@@ -211,7 +211,7 @@ window.addEventListener('DOMContentLoaded', () => {
         return await res.json();
     };
 
-
+//использование сторонней библиотеки axios
     axios.get('http://localhost:3000/menu')
         .then(data => {
                    data.data.forEach(({img, alt, title, description, price,})=> {
@@ -337,5 +337,52 @@ window.addEventListener('DOMContentLoaded', () => {
     fetch('http://localhost:3000/menu')
         .then(data => data.json())
         .then(res => console.log(res));
+
+        //slider
+
+        const slides = document.querySelectorAll('.offer__slide'),
+              prev = document.querySelector('.offer__slider-prev'),
+              next = document.querySelector('.offer__slider-next'),
+              total = document.querySelector('#total'),
+              current = document.querySelector('#current');
+        let slideIndex = 1;
+
+        showSlides(slideIndex);
+
+        if (slides.lenght < 10){
+            total.textContent = `0${slides.lenght}`;
+        }else {
+            total.textContent = slides.lenght;
+        }
+
+        function showSlides(n){
+            if (n > slides.length) {
+                slideIndex = 1;
+            }
+
+            if (n < 1){
+                slideIndex = slides.length;
+            }
+
+            slides.forEach(item => item.style.display = 'none');
+
+            slides[slideIndex -1].style.display = 'block';
+
+            if (slides.lenght < 10){
+                current.textContent = `0${slideIndex}`;
+            }else {
+                current.textContent = slideIndex;
+            }
+        }
+        function plusSlides(n){
+            showSlides(slideIndex += n);
+        }              
+        prev.addEventListener('click', ()=> {
+            plusSlides(-1);
+        });
+        next.addEventListener('click', ()=> {
+            plusSlides(1);
+        });
+        
 
 });
